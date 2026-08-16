@@ -1,0 +1,6 @@
+# Local Acuon telemetry and events (opt-in) — do not commit
+.acuon/
+
+# OS / editor
+.DS_Store
+Thumbs.db

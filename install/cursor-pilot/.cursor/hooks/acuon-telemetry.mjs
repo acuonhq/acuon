@@ -19,6 +19,10 @@ const ACUON_DIR = ".acuon";
 const EVENTS_FILE = join(ACUON_DIR, "acuon-events.jsonl");
 const CONFIG_FILE = join(ACUON_DIR, "config.json");
 
+// Tool tag and session id are resolved once the hook input is read (bottom).
+let TOOL = "cursor";
+let SESSION = "local";
+
 function readStdin() {
   try {
     const raw = readFileSync(0, "utf8").trim();
@@ -81,7 +85,7 @@ function isDuplicateAck(config, record) {
     return false;
   }
   if (prev.via === "ack") return false;
-  const session = process.env.CURSOR_SESSION_ID || "local";
+  const session = SESSION;
   return (
     prev.event === record.event &&
     prev.mode === record.mode &&
@@ -100,9 +104,9 @@ function appendEvent(record) {
     ts: new Date().toISOString(),
     participant: config.participant,
     repo: config.repoId,
-    tool: process.env.ACUON_TOOL || "cursor",
+    tool: TOOL,
     week: weekSinceInstall(config),
-    session: process.env.CURSOR_SESSION_ID || "local",
+    session: SESSION,
     mode: record.mode,
     event: record.event,
   };
@@ -408,6 +412,7 @@ function extractText(input) {
     "response",
     "agent_message",
     "assistant_message",
+    "last_assistant_message",
     "content",
   ];
   for (const key of fields) {
@@ -418,6 +423,11 @@ function extractText(input) {
 }
 
 const input = readStdin();
+// Claude Code hook payloads carry a transcript_path; Cursor's do not. An
+// explicit ACUON_TOOL env var still wins. Claude also passes session_id in the
+// payload; Cursor exposes it via CURSOR_SESSION_ID.
+TOOL = process.env.ACUON_TOOL || (input.transcript_path ? "claude-code" : "cursor");
+SESSION = process.env.CURSOR_SESSION_ID || input.session_id || "local";
 const text = extractText(input);
 
 if (text) {

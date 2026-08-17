@@ -33,7 +33,7 @@ Acuon is **not** an app you run. You copy files from this repository into **the 
 **Two ways to install:**
 
 - **Just try Acuon** (no telemetry) — the steps below, or copy the ready tree `install/cursor/`.
-- **Join the pilot** (adds a local telemetry log) — one ready tree, one command: **[install/PILOT.md](./install/PILOT.md)**.
+- **Join the pilot** (adds a local telemetry log) — Cursor or Claude Code, ready trees: **[install/PILOT.md](./install/PILOT.md)**.
 
 The steps below are the plain install.
 

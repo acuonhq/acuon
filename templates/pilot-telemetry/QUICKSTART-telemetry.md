@@ -78,7 +78,7 @@ Skill area is **not** transmitted (pilot privacy).
 
 ## Claude Code
 
-Copy `acuon-telemetry.mjs` into Claude Code hooks and wire `UserPromptSubmit` and `Stop`/`PostToolUse` per tool docs. Set `ACUON_TOOL=claude-code` in the hook environment.
+Claude Code is fully supported. Wire the hook to `UserPromptSubmit` (your commands) and `Stop` (the agent's final message, read from `last_assistant_message` — no transcript parsing). The tool is auto-detected as `claude-code` from the hook payload, so no `ACUON_TOOL` env var is needed. Ready hook config is in `claude-settings.json`; step-by-step install — [../../install/PILOT-claude.md](../../install/PILOT-claude.md).
 
 ## Fallback
 

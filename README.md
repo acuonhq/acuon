@@ -28,19 +28,37 @@ A seed lives only in the chat/proposal and **never** reaches your project — on
 
 ## Quick start
 
-Full guide: [templates/QUICKSTART.md](./templates/QUICKSTART.md)
+Acuon is **not** an app you run. You copy two files from this repository into **the project you actually code in**. Full guide: [templates/QUICKSTART.md](./templates/QUICKSTART.md)
+
+1. Clone this pack (or download the ZIP from **Code → Download ZIP**):
 
 ```bash
-# Cursor
-cp templates/acuon-cursor.mdc .cursor/rules/acuon-cursor.mdc
-cp templates/SKILL_PROFILE.md SKILL_PROFILE.md
+git clone https://github.com/acuonhq/acuon.git
 ```
 
+2. Open a terminal in **your** project (not inside the clone above).
+3. Copy the rule and profile (`/path/to/acuon` = where you cloned this repo):
+
 ```bash
-# Claude Code
-cp templates/SKILL_PROFILE.md SKILL_PROFILE.md
-# Paste templates/acuon-claude.md into your project's CLAUDE.md
+# Cursor — macOS / Linux / Git Bash
+mkdir -p .cursor/rules
+cp /path/to/acuon/templates/acuon-cursor.mdc .cursor/rules/acuon-cursor.mdc
+cp /path/to/acuon/templates/SKILL_PROFILE.md SKILL_PROFILE.md
 ```
+
+```powershell
+# Cursor — PowerShell (Windows)
+New-Item -ItemType Directory -Force -Path .cursor\rules | Out-Null
+Copy-Item C:\path\to\acuon\templates\acuon-cursor.mdc .cursor\rules\acuon-cursor.mdc
+Copy-Item C:\path\to\acuon\templates\SKILL_PROFILE.md SKILL_PROFILE.md
+```
+
+4. Restart Cursor (or reload the window). Confirm the rule is on: **Settings → Rules**.
+5. Ask the agent for a multi-step task (e.g. “add feature X”). If the profile is new, it will calibrate levels and language.
+
+Claude Code: copy `SKILL_PROFILE.md` the same way; put the contents of `templates/acuon-claude.md` into `CLAUDE.md` at your project root (create the file if it does not exist).
+
+Telemetry is **optional** and off until you copy the hook files. Copying them only writes a **local** log; nothing is sent to a server unless you later turn that on. Details in the Quick-start.
 
 ---
 

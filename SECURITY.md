@@ -29,7 +29,7 @@ If the tool ever suggests committing or merging a seeded defect — that's a bug
 
 ## Telemetry privacy (opt-in)
 
-Pilot telemetry (`templates/pilot-telemetry/`) is **strictly opt-in** and enabled only by manually installing hooks. Install details — [QUICKSTART-telemetry.md](./templates/pilot-telemetry/QUICKSTART-telemetry.md).
+Pilot telemetry (`templates/pilot-telemetry/`) is **strictly opt-in**: nothing runs until you copy the hook files into your project. Copying them writes a **local** log only. Sending data to a server is a **second**, separate switch (`optInRemote`) and stays off unless you set a URL. Install details — [QUICKSTART-telemetry.md](./templates/pilot-telemetry/QUICKSTART-telemetry.md).
 
 **What is collected** (locally, in `.acuon/acuon-events.jsonl`):
 - Event type: `issued` / `done` / `skip` / `switch` / `reject`.

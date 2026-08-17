@@ -6,31 +6,78 @@ Acuon **trains and tests your ability to judge whether AI code can be accepted**
 
 > **Working in another language?** Use this pack as is — there is no localized version to hunt for. Acuon answers in whatever language you write in, and commands are ASCII tokens (`[VERDICT]`, `[DONE]`, `[SKIP]`) that are identical everywhere. To read the docs in your language, ask your agent: *"explain Acuon and its commands in <your language>"* — the rule is in your repository, so it can.
 
-## 1. Install rule and profile
+**What you are doing:** this GitHub repo is a **file pack**, not your app. You copy a rule + a skill profile into the project where you write code. After that, Cursor / Claude Code reads them automatically.
 
-### Cursor
+---
+
+## 0. Get this pack
+
+Clone (or **Code → Download ZIP** on GitHub and unzip):
+
+```bash
+git clone https://github.com/acuonhq/acuon.git
+```
+
+Remember the folder — below it is `/path/to/acuon` (Windows: `C:\path\to\acuon`).
+
+Do **not** treat that clone as your product repo unless you really work there.
+
+---
+
+## 1. Copy the rule and profile into **your** project
+
+Open a terminal in the **root of the project you code in** (the folder that already has your source, or an empty folder you will open in Cursor).
+
+### Cursor — macOS / Linux / Git Bash
 
 ```bash
 mkdir -p .cursor/rules
-cp templates/acuon-cursor.mdc .cursor/rules/acuon-cursor.mdc
-cp templates/SKILL_PROFILE.md SKILL_PROFILE.md
+cp /path/to/acuon/templates/acuon-cursor.mdc .cursor/rules/acuon-cursor.mdc
+cp /path/to/acuon/templates/SKILL_PROFILE.md SKILL_PROFILE.md
 ```
+
+### Cursor — PowerShell (Windows)
+
+```powershell
+New-Item -ItemType Directory -Force -Path .cursor\rules | Out-Null
+Copy-Item C:\path\to\acuon\templates\acuon-cursor.mdc .cursor\rules\acuon-cursor.mdc
+Copy-Item C:\path\to\acuon\templates\SKILL_PROFILE.md SKILL_PROFILE.md
+```
+
+You should now have:
+
+- `.cursor/rules/acuon-cursor.mdc`
+- `SKILL_PROFILE.md` at the project root
 
 ### Claude Code
 
 ```bash
-cp templates/SKILL_PROFILE.md SKILL_PROFILE.md
-# Paste templates/acuon-claude.md into your project's CLAUDE.md
+cp /path/to/acuon/templates/SKILL_PROFILE.md SKILL_PROFILE.md
 ```
+
+Then:
+
+- If your project has **no** `CLAUDE.md` yet — copy `templates/acuon-claude.md` to `CLAUDE.md` at the project root.
+- If `CLAUDE.md` already exists — open `templates/acuon-claude.md` and **append** its contents to your `CLAUDE.md` (do not delete your existing instructions).
+
+### After copying
+
+1. Restart Cursor / Claude Code, or **Developer: Reload Window**.
+2. In Cursor: **Settings → Rules** — `acuon-cursor` should be listed and enabled.
+3. You do **not** need telemetry for Acuon to work (see §4).
+
+---
 
 ## 2. Onboarding
 
-1. Open the project in Cursor / Claude Code.
+1. Open **your** project (the one you copied files into) in Cursor / Claude Code.
 2. Ask the agent for a multi-step task (e.g. "add feature X").
 3. If `SKILL_PROFILE.md` is new — the agent runs **conversational calibration** (level legend + areas, including `verify-*`) and confirms your working language.
-4. Set `focus_areas`, `skip_areas`, `training_intensity` in the profile (areas are given by ID).
+4. Optionally set `focus_areas`, `skip_areas`, `training_intensity` in the profile (areas are given by ID).
 
 Manual calibration: `[CALIBRATE] verify-diff = 3`
+
+---
 
 ## 3. Modes (brief)
 
@@ -46,18 +93,40 @@ Manual calibration: `[CALIBRATE] verify-diff = 3`
 
 **Safety:** seed (before-code review) only in chat/proposal; only clean code lands in the project.
 
-## 4. Pilot telemetry (opt-in)
+---
 
-For Phase 1 validation participants only:
+## 4. Pilot telemetry (optional)
+
+Acuon **works without this**. Two separate things:
+
+| | Default | What you do |
+|---|---------|-------------|
+| **Local log** | Off — files are not copied | Copy the hook files below. After that, events are written only to `.acuon/acuon-events.jsonl` on your disk. Nothing is sent over the network. |
+| **Send to a server** | Off (`optInRemote: false`) | Only if a pilot organizer gives you a `remoteUrl`. Then edit `.acuon/config.json` (created on the first event). There is **no** public backend in this release; leave this off unless you were given a URL. |
+
+To turn on the **local** log (Cursor). Needs **Node.js** 18+.
+
+macOS / Linux / Git Bash:
 
 ```bash
 mkdir -p .cursor/hooks
-cp templates/pilot-telemetry/acuon-telemetry.mjs .cursor/hooks/
-cp templates/pilot-telemetry/hooks.json .cursor/hooks.json
+cp /path/to/acuon/templates/pilot-telemetry/acuon-telemetry.mjs .cursor/hooks/
+cp /path/to/acuon/templates/pilot-telemetry/hooks.json .cursor/hooks.json
 echo ".acuon/" >> .gitignore
 ```
 
-Details: [pilot-telemetry/QUICKSTART-telemetry.md](./pilot-telemetry/QUICKSTART-telemetry.md)
+PowerShell:
+
+```powershell
+New-Item -ItemType Directory -Force -Path .cursor\hooks | Out-Null
+Copy-Item C:\path\to\acuon\templates\pilot-telemetry\acuon-telemetry.mjs .cursor\hooks\
+Copy-Item C:\path\to\acuon\templates\pilot-telemetry\hooks.json .cursor\hooks.json
+Add-Content .gitignore ".acuon/"
+```
+
+Restart Cursor (or check the **Hooks** tab). Details: [pilot-telemetry/QUICKSTART-telemetry.md](./pilot-telemetry/QUICKSTART-telemetry.md).
+
+---
 
 ## 5. Smoke test
 

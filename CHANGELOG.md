@@ -13,6 +13,7 @@ Rules-MVP for Cursor and Claude Code: a protocol and skill profile in markdown t
 - **Ready plans adopted as-is** (`plan_source: adopt`); only non-DO steps get in-file markup.
 - **Local `SKILL_PROFILE.md`**, updated by the agent after credited review.
 - **Optional opt-in pilot telemetry** (local JSONL; random `repoId`, no code, paths, or skill levels). Privacy — [SECURITY.md](./SECURITY.md).
+- **Install docs:** clone this pack, copy files into *your* project (macOS/Linux and Windows), restart the editor. Telemetry: local log vs remote send are separate; remote is off unless you set a URL.
 - **Feedback:** [acuon.ai@gmail.com](mailto:acuon.ai@gmail.com).
 
 Pre-release 0.2.0–0.4.5 iterated internally (VERIFY/DIAGNOSE, seed safety, language-neutral protocol, telemetry).

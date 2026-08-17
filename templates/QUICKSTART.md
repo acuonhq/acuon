@@ -8,6 +8,8 @@ Acuon **trains and tests your ability to judge whether AI code can be accepted**
 
 **What you are doing:** this GitHub repo is a **file pack**, not your app. You copy a rule + a skill profile into the project where you write code. After that, Cursor / Claude Code reads them automatically.
 
+> **Pilot participant?** Install everything (rule + profile + local telemetry) in one step with the ready tree — see **[../install/PILOT.md](../install/PILOT.md)**. The steps below are the plain install (no telemetry).
+
 ---
 
 ## 0. Get this pack
@@ -103,6 +105,8 @@ Acuon **works without this**. Two separate things:
 |---|---------|-------------|
 | **Local log** | Off — files are not copied | Copy the hook files below. After that, events are written only to `.acuon/acuon-events.jsonl` on your disk. Nothing is sent over the network. |
 | **Send to a server** | Off (`optInRemote: false`) | Only if a pilot organizer gives you a `remoteUrl`. Then edit `.acuon/config.json` (created on the first event). There is **no** public backend in this release; leave this off unless you were given a URL. |
+
+> **Pilot participants:** instead of the commands below, copy the whole pilot tree in one step (rule + profile + hook) — see **[../install/PILOT.md](../install/PILOT.md)**.
 
 To turn on the **local** log (Cursor). Needs **Node.js** 18+.
 

@@ -16,10 +16,10 @@ Thanks for your interest in the pilot! The pilot tests one thing: do you catch s
 
 ## Telemetry (opt-in)
 
-Willing to enable local opt-in telemetry? (no code or names — see [SECURITY.md](../../SECURITY.md))
+The pilot install adds a **local** telemetry log — nothing is sent anywhere unless you set a URL (no code or names — see [SECURITY.md](../../SECURITY.md)). Once you're in, install with the one-step pilot tree: [install/PILOT.md](../../install/PILOT.md).
 
-- [ ] Yes, I'm in
-- [ ] Not yet, just trying it out
+- [ ] Yes — I'll use the pilot install (local telemetry)
+- [ ] Not yet — just trying Acuon without telemetry
 
 ## Contact
 

@@ -14,6 +14,7 @@ Rules-MVP for Cursor and Claude Code: a protocol and skill profile in markdown t
 - **Local `SKILL_PROFILE.md`**, updated by the agent after credited review.
 - **Optional opt-in pilot telemetry** (local JSONL; random `repoId`, no code, paths, or skill levels). Privacy — [SECURITY.md](./SECURITY.md).
 - **Install docs:** clone this pack, copy files into *your* project (macOS/Linux and Windows), restart the editor. Telemetry: local log vs remote send are separate; remote is off unless you set a URL.
+- **Install trees:** ready-to-copy `install/cursor` (plain) and `install/cursor-pilot` (adds the local telemetry hook), plus a self-contained pilot page [install/PILOT.md](./install/PILOT.md) — pilot participants set up rule + profile + local telemetry in one step.
 - **Feedback:** [acuon.ai@gmail.com](mailto:acuon.ai@gmail.com).
 
 Pre-release 0.2.0–0.4.5 iterated internally (VERIFY/DIAGNOSE, seed safety, language-neutral protocol, telemetry).

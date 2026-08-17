@@ -28,7 +28,14 @@ A seed lives only in the chat/proposal and **never** reaches your project — on
 
 ## Quick start
 
-Acuon is **not** an app you run. You copy two files from this repository into **the project you actually code in**. Full guide: [templates/QUICKSTART.md](./templates/QUICKSTART.md)
+Acuon is **not** an app you run. You copy files from this repository into **the project you actually code in**. Full guide: [templates/QUICKSTART.md](./templates/QUICKSTART.md)
+
+**Two ways to install:**
+
+- **Just try Acuon** (no telemetry) — the steps below, or copy the ready tree `install/cursor/`.
+- **Join the pilot** (adds a local telemetry log) — one ready tree, one command: **[install/PILOT.md](./install/PILOT.md)**.
+
+The steps below are the plain install.
 
 1. Clone this pack (or download the ZIP from **Code → Download ZIP**):
 

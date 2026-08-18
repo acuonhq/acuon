@@ -60,7 +60,7 @@ Copy-Item C:\path\to\acuon\templates\acuon-cursor.mdc .cursor\rules\acuon-cursor
 Copy-Item C:\path\to\acuon\templates\SKILL_PROFILE.md SKILL_PROFILE.md
 ```
 
-4. Restart Cursor (or reload the window). Confirm the rule is on: **Settings → Rules**.
+4. Reload Cursor (`Ctrl+Shift+P` / `Cmd+Shift+P` → `Reload Window`). Confirm the rule in **Customize → Rules** (not Settings): `acuon-cursor` listed and on.
 5. Ask the agent for a multi-step task (e.g. “add feature X”). If the profile is new, it will calibrate levels and language.
 
 Claude Code: copy `SKILL_PROFILE.md` the same way; put the contents of `templates/acuon-claude.md` into `CLAUDE.md` at your project root (create the file if it does not exist).

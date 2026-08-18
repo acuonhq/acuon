@@ -64,9 +64,9 @@ Then:
 
 ### After copying
 
-1. Restart Cursor / Claude Code, or **Developer: Reload Window**.
-2. In Cursor: **Settings → Rules** — `acuon-cursor` should be listed and enabled.
-3. You do **not** need telemetry for Acuon to work (see §4).
+1. Reload Cursor: `Ctrl+Shift+P` (`Cmd+Shift+P` on macOS) → type `Reload Window` → Enter. Or quit and reopen the project. (Claude Code: start a new session.)
+2. In Cursor, rules are under **Customize**, not Settings: sidebar (or Command Palette → `Open Customize`) → **Rules**. The project rule `acuon-cursor` should be listed and on.
+3. You do **not** need telemetry for Acuon to work (see §4). If you did install the hook: same **Customize** panel → **Hooks** — you should see `node .cursor/hooks/acuon-telemetry.mjs` with no error.
 
 ---
 
@@ -128,7 +128,7 @@ Copy-Item C:\path\to\acuon\templates\pilot-telemetry\hooks.json .cursor\hooks.js
 Add-Content .gitignore ".acuon/"
 ```
 
-Restart Cursor (or check the **Hooks** tab). Details: [pilot-telemetry/QUICKSTART-telemetry.md](./pilot-telemetry/QUICKSTART-telemetry.md).
+Reload Cursor (`Ctrl+Shift+P` → `Reload Window`), then check **Customize → Hooks**. Details: [pilot-telemetry/QUICKSTART-telemetry.md](./pilot-telemetry/QUICKSTART-telemetry.md).
 
 ---
 

@@ -38,7 +38,7 @@ cp path/to/acuon/templates/pilot-telemetry/acuon-telemetry.mjs .cursor/hooks/
 cp path/to/acuon/templates/pilot-telemetry/hooks.json .cursor/hooks.json
 ```
 
-Requires **Node.js** (18+). Restart Cursor or check the Hooks tab.
+Requires **Node.js** (18+). Reload Cursor (`Ctrl+Shift+P` → `Reload Window`), then check **Customize → Hooks**.
 
 **Local vs remote.** Copying these files turns on a **local** log only (`.acuon/acuon-events.jsonl`). Nothing is sent to a server. Sending data (`optInRemote`) stays **off** until you edit `.acuon/config.json` and set a `remoteUrl` given by the pilot organizer. This release has **no** public backend — leave remote off unless you were given a URL. Acuon itself works without any telemetry.
 

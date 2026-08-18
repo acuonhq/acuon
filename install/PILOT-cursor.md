@@ -61,12 +61,14 @@ SKILL_PROFILE.md
 
 ## 3. Restart and verify
 
-1. Restart Cursor, or **Developer: Reload Window**.
-2. **Settings → Rules** — `acuon-cursor` is listed and enabled.
-3. **Settings → Hooks** — the Acuon hook is listed (no error).
+Rules and hooks are **not** under Settings. They live in **Customize**.
+
+1. Reload Cursor: `Ctrl+Shift+P` (`Cmd+Shift+P` on macOS) → type `Reload Window` → Enter. Or quit Cursor and open this project again.
+2. Open **Customize** (sidebar, or Command Palette → `Open Customize`) → **Rules**. The project rule `acuon-cursor` should be listed and on (Always Apply).
+3. Same panel → **Hooks**. You should see `node .cursor/hooks/acuon-telemetry.mjs` with no error. (The UI shows the command, not the name “Acuon”.) If the tab is empty, also check the bottom **Output** panel → dropdown **Hooks**.
 4. After your first agent exchange, the log appears: `.acuon/acuon-events.jsonl`.
 
-If the Hooks tab shows an error, it is almost always Node.js missing or not on PATH — re-check `node -v` and restart Cursor.
+If Hooks shows an error, it is almost always Node.js missing or not on PATH — re-check `node -v` and reload the window.
 
 ## 4. Use it
 

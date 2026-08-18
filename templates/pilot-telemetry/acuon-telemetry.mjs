@@ -422,12 +422,23 @@ function extractText(input) {
   return "";
 }
 
+// Both Cursor and Claude Code send transcript_path — it is not a host signal.
+// Cursor payloads carry cursor_version and events like afterAgentResponse;
+// Claude Code uses UserPromptSubmit / Stop and last_assistant_message.
+function detectTool(payload) {
+  if (process.env.ACUON_TOOL) return process.env.ACUON_TOOL;
+  if (payload.cursor_version) return "cursor";
+  const event = String(payload.hook_event_name || payload.event || "");
+  if (event.includes("beforeSubmitPrompt") || event.includes("afterAgentResponse")) return "cursor";
+  if (event === "UserPromptSubmit" || event === "Stop" || event === "SubagentStop") return "claude-code";
+  if (typeof payload.last_assistant_message === "string") return "claude-code";
+  return "cursor";
+}
+
 const input = readStdin();
-// Claude Code hook payloads carry a transcript_path; Cursor's do not. An
-// explicit ACUON_TOOL env var still wins. Claude also passes session_id in the
-// payload; Cursor exposes it via CURSOR_SESSION_ID.
-TOOL = process.env.ACUON_TOOL || (input.transcript_path ? "claude-code" : "cursor");
-SESSION = process.env.CURSOR_SESSION_ID || input.session_id || "local";
+TOOL = detectTool(input);
+SESSION =
+  process.env.CURSOR_SESSION_ID || input.conversation_id || input.session_id || "local";
 const text = extractText(input);
 
 if (text) {

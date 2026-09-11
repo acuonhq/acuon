@@ -2,6 +2,13 @@
 
 All notable changes to Acuon templates. Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follow semantic versioning for rules-MVP.
 
+## [Unreleased]
+
+## [0.4.7] — 2026-09-11
+
+- **Telemetry hook:** if `.acuon/config.json` already exists with only `optInRemote` / `remoteUrl` (pilot invite starter), the hook now fills in `participant`, `repoId`, and `installedAt` instead of leaving them missing.
+- **Telemetry hook:** wait for the opt-in remote POST (4s timeout) before exiting, so `process.exit` does not drop the request.
+
 ## [0.4.6] — 2026-08-16 — First public release
 
 Rules-MVP for Cursor and Claude Code: a protocol and skill profile in markdown that calibrates whether trust in accepting AI code is deserved.
@@ -20,4 +27,5 @@ Rules-MVP for Cursor and Claude Code: a protocol and skill profile in markdown t
 
 Pre-release 0.2.0–0.4.5 iterated internally (VERIFY/DIAGNOSE, seed safety, language-neutral protocol, telemetry).
 
+[0.4.7]: https://github.com/acuonhq/acuon/releases/tag/v0.4.7
 [0.4.6]: https://github.com/acuonhq/acuon/releases/tag/v0.4.6

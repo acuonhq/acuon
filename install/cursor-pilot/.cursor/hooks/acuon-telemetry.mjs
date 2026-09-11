@@ -18,6 +18,8 @@ import { join } from "node:path";
 const ACUON_DIR = ".acuon";
 const EVENTS_FILE = join(ACUON_DIR, "acuon-events.jsonl");
 const CONFIG_FILE = join(ACUON_DIR, "config.json");
+const REMOTE_TIMEOUT_MS = 4000;
+const remotePosts = [];
 
 // Tool tag and session id are resolved once the hook input is read (bottom).
 let TOOL = "cursor";
@@ -35,25 +37,43 @@ function readStdin() {
 
 function ensureConfig() {
   mkdirSync(ACUON_DIR, { recursive: true });
+  const generated = {
+    participant: `anon-${randomBytes(3).toString("hex")}`,
+    repoId: randomBytes(4).toString("hex"),
+    installedAt: new Date().toISOString(),
+    optInRemote: false,
+    remoteUrl: null,
+  };
   if (!existsSync(CONFIG_FILE)) {
-    const config = {
-      participant: `anon-${randomBytes(3).toString("hex")}`,
-      repoId: randomBytes(4).toString("hex"),
-      installedAt: new Date().toISOString(),
-      optInRemote: false,
-      remoteUrl: null,
-    };
-    writeFileSync(CONFIG_FILE, JSON.stringify(config, null, 2));
-    return config;
+    writeFileSync(CONFIG_FILE, JSON.stringify(generated, null, 2));
+    return generated;
   }
   const config = JSON.parse(readFileSync(CONFIG_FILE, "utf8"));
-  // Backfill a random repo id for configs created before this field existed.
-  // The id is never derived from the working-directory path: a short path hash
+  let dirty = false;
+  // Starter configs from a pilot invite may contain only optInRemote + remoteUrl.
+  if (typeof config.participant !== "string" || !config.participant) {
+    config.participant = generated.participant;
+    dirty = true;
+  }
+  // Never derive repoId from the working-directory path: a short path hash
   // is weakly reversible and could deanonymize the repository.
   if (!config.repoId) {
-    config.repoId = randomBytes(4).toString("hex");
-    writeFileSync(CONFIG_FILE, JSON.stringify(config, null, 2));
+    config.repoId = generated.repoId;
+    dirty = true;
   }
+  if (!config.installedAt) {
+    config.installedAt = generated.installedAt;
+    dirty = true;
+  }
+  if (typeof config.optInRemote !== "boolean") {
+    config.optInRemote = false;
+    dirty = true;
+  }
+  if (config.remoteUrl === undefined) {
+    config.remoteUrl = null;
+    dirty = true;
+  }
+  if (dirty) writeFileSync(CONFIG_FILE, JSON.stringify(config, null, 2));
   return config;
 }
 
@@ -115,7 +135,7 @@ function appendEvent(record) {
   writeFileSync(EVENTS_FILE, `${JSON.stringify(event)}\n`, { flag: "a" });
 
   if (config.optInRemote && config.remoteUrl) {
-    postRemote(config.remoteUrl, event).catch(() => {});
+    remotePosts.push(postRemote(config.remoteUrl, event).catch(() => {}));
   }
 }
 
@@ -125,6 +145,7 @@ async function postRemote(url, event) {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(event),
+    signal: AbortSignal.timeout(REMOTE_TIMEOUT_MS),
   });
 }
 
@@ -435,25 +456,33 @@ function detectTool(payload) {
   return "cursor";
 }
 
-const input = readStdin();
-TOOL = detectTool(input);
-SESSION =
-  process.env.CURSOR_SESSION_ID || input.conversation_id || input.session_id || "local";
-const text = extractText(input);
+async function main() {
+  const input = readStdin();
+  TOOL = detectTool(input);
+  SESSION =
+    process.env.CURSOR_SESSION_ID || input.conversation_id || input.session_id || "local";
+  const text = extractText(input);
 
-if (text) {
-  const hookEvent = input.hook_event_name || input.event || "";
-  if (hookEvent.includes("beforeSubmitPrompt") || hookEvent.includes("UserPromptSubmit")) {
-    handleUserPrompt(text);
-  } else if (hookEvent.includes("afterAgentResponse") || hookEvent.includes("Stop")) {
-    handleAgentResponse(text);
-  } else {
-    if (hasHeuristicAgentMarkers(text) && !looksLikeUserProtocolQuestion(text)) {
+  if (text) {
+    const hookEvent = input.hook_event_name || input.event || "";
+    if (hookEvent.includes("beforeSubmitPrompt") || hookEvent.includes("UserPromptSubmit")) {
+      handleUserPrompt(text);
+    } else if (hookEvent.includes("afterAgentResponse") || hookEvent.includes("Stop")) {
       handleAgentResponse(text);
     } else {
-      handleUserPrompt(text);
+      if (hasHeuristicAgentMarkers(text) && !looksLikeUserProtocolQuestion(text)) {
+        handleAgentResponse(text);
+      } else {
+        handleUserPrompt(text);
+      }
     }
   }
+
+  // Must finish POST before exit: a sync process.exit() aborted in-flight fetch.
+  await Promise.all(remotePosts);
 }
 
-process.exit(0);
+main().then(
+  () => process.exit(0),
+  () => process.exit(0),
+);

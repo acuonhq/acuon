@@ -47,14 +47,14 @@ Requires **Node.js** (18+). Reload Cursor (`Ctrl+Shift+P` → `Reload Window`), 
 | Path | Purpose |
 |------|---------|
 | `.acuon/acuon-events.jsonl` | Local event log (transparent, readable) |
-| `.acuon/config.json` | Created by the hook on first event: `participant`, `repoId` (random local repo id), install date, opt-in |
+| `.acuon/config.json` | Created by the hook on first event: `participant`, `repoId` (random local repo id), install date, opt-in. If a starter file already has only `optInRemote` + `remoteUrl`, the hook fills in the missing fields and does not reset opt-in.
 
 Add `.acuon/` to `.gitignore` if you don't want to commit the log.
 
 ## Data transfer (hybrid)
 
 1. **Default:** participant manually sends `acuon-events.jsonl` when the pilot organizer requests it.
-2. **Opt-in auto-POST:** after the first event, edit the created `.acuon/config.json` — set `optInRemote: true` and `remoteUrl` (receiver URL, if the pilot organizer provided one).
+2. **Opt-in auto-POST:** you may put only `optInRemote: true` and `remoteUrl` in `.acuon/config.json` **before** the first chat (URL from the pilot organizer) — the hook fills in `participant`, `repoId`, and `installedAt`. Or set those two fields after the first event. This pack ships **no** public backend URL.
 
 ## Event schema
 

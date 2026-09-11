@@ -7,7 +7,7 @@ alwaysApply: true
 
 > Copy to `.cursor/rules/acuon-cursor.mdc` in your repository.
 > Skill profile: `SKILL_PROFILE.md` at repository root.
-> Template version: **0.4.6** (rules-MVP v2: VERIFY / DIAGNOSE · before/after code review · design gate at plan authoring · language-neutral protocol · stealth seed · VERIFY sequencing "human before agent" · verdict adjudication + review_floor · review_floor spot-check on gating artifacts · human-readable review summary · whole card in the working language)
+> Template version: **0.4.7** (rules-MVP v2: VERIFY / DIAGNOSE · before/after code review · design gate at plan authoring · language-neutral protocol · stealth seed · VERIFY sequencing "human before agent" · verdict adjudication + review_floor · review_floor spot-check on gating artifacts · human-readable review summary · whole card in the working language)
 
 Acuon calibrates **trust in accepting AI code**: the agent routes subtasks by risk and verification sub-skills; the human verifies where trust is not yet earned.
 

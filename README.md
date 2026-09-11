@@ -3,7 +3,7 @@
 **Trust-calibration layer for AI-assisted coding.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
-[![rules-MVP](https://img.shields.io/badge/rules--MVP-0.4.6-blue.svg)](./CHANGELOG.md)
+[![rules-MVP](https://img.shields.io/badge/rules--MVP-0.4.7-blue.svg)](./CHANGELOG.md)
 
 > _Acuō_ (Latin) — to sharpen, to hone a skill.
 

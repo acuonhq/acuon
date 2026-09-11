@@ -1,4 +1,4 @@
-# Quick-start — Acuon rules-MVP 0.4.6
+# Quick-start — Acuon rules-MVP 0.4.7
 
 Pilot bundle: trust-calibration rule + profile with verification sub-skills + optional telemetry.
 
